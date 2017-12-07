@@ -121,16 +121,12 @@ public class Home_screen extends AppCompatActivity {
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
+                        if (task.isSuccessful()) {// Sign in success, update UI with the signed-in user's information
                             Log.d("sign in succesfully", "signInWithEmail:success");
                             Toast.makeText(Home_screen.this, "User " +email+ " signed in!",
                                     Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(getApplicationContext(), Main.class);
-                            startActivity(intent);
-                            finish();
-                        } else {
-                            // If sign in fails, display a message to the user.
+                            next();
+                        } else {// If sign in fails, display a message to the user.
                             Log.w("Failed to login", "signInWithEmail:failure", task.getException());
                             Toast.makeText(Home_screen.this, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
@@ -138,5 +134,10 @@ public class Home_screen extends AppCompatActivity {
                     }
         });
 
+    }
+    public void next(){
+        Intent intent = new Intent(getApplicationContext(), Main.class);
+        startActivity(intent);
+        finish();
     }
 }
