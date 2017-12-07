@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "653777058880",
+    "firebase_url": "https://triviaplaza-e30ad.firebaseio.com",
+    "project_id": "triviaplaza-e30ad",
+    "storage_bucket": "triviaplaza-e30ad.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:653777058880:android:40ea9772f98e860b",
+        "android_client_info": {
+          "package_name": "com.example.joeps.triviaplaza"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "653777058880-6tmn4tlohgl3qh9s40hnm4jq147a39mc.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.joeps.triviaplaza",
+            "certificate_hash": "17596fe66ca8375d1270bee3cb2a96f9812eaa05"
+          }
+        },
+        {
+          "client_id": "653777058880-8n3b86i79f6e4smnd6gsq74m6il5shv8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCC23QrL7EuIhV5uLqAg04V6Tn8nT-9R5o"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "653777058880-8n3b86i79f6e4smnd6gsq74m6il5shv8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
