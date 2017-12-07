@@ -97,19 +97,16 @@ public class Home_screen extends AppCompatActivity {
                                 Log.d("weak_password", "onComplete: weak_password");
                                 Toast.makeText(Home_screen.this, "Weak password! Password needs to be at least 6 characters  long!",
                                         Toast.LENGTH_LONG).show();
-                                // TODO: take your actions!
                             }
                             // if user enters wrong password.
                             catch (FirebaseAuthInvalidCredentialsException malformedEmail) {
                                 Log.d("malformed_email", "onComplete: malformed_email");
                                 Toast.makeText(Home_screen.this,  "Malformed email!",
                                         Toast.LENGTH_SHORT).show();
-                                // TODO: Take your action
                             } catch (FirebaseAuthUserCollisionException existEmail) {
                                 Log.d("exist_email", "onComplete: exist_email");
                                 Toast.makeText(Home_screen.this, email+ " already exists!",
                                         Toast.LENGTH_SHORT).show();
-                                // TODO: Take your action
                             } catch (Exception e) {
                                 Log.d("Error", "onComplete: " + e.getMessage());
                             }
