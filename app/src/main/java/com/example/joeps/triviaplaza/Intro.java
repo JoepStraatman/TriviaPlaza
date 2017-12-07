@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.view.Window;
 import android.view.WindowManager;
 
+import static java.lang.Thread.sleep;
+
 public class Intro extends AppCompatActivity {
 
     @Override
@@ -19,14 +21,18 @@ public class Intro extends AppCompatActivity {
             public void run() {
                 try {
                     sleep(200);
-                    Intent intent = new Intent(getApplicationContext(), Home_screen.class);
-                    startActivity(intent);
-                    finish();
+                    next();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
             }
         };
         myIntro.start();
+    }
+    public void next() {
+
+        Intent intent = new Intent(getApplicationContext(), Home_screen.class);
+        startActivity(intent);
+        finish();
     }
 }
