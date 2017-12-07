@@ -127,8 +127,7 @@ public class Home_screen extends AppCompatActivity {
                             next();
                         } else {// If sign in fails, display a message to the user.
                             Log.w("Failed to login", "signInWithEmail:failure", task.getException());
-                            Toast.makeText(Home_screen.this, "Authentication failed.",Toast.LENGTH_SHORT).show();
-                        }
+                            Toast.makeText(Home_screen.this, "Authentication failed.",Toast.LENGTH_SHORT).show();}
                     }
         });
     }
