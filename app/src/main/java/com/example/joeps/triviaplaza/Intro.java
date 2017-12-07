@@ -10,7 +10,6 @@ import android.view.WindowManager;
 import static java.lang.Thread.sleep;
 
 public class Intro extends AppCompatActivity {
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -18,13 +17,10 @@ public class Intro extends AppCompatActivity {
         getWindow().getDecorView().setBackgroundColor(Color.parseColor("#601E13"));
         Thread myIntro = new Thread() {
             @Override
-            public void run() {
-                try {
+            public void run() {try {
                     sleep(200);
                     next();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+                } catch (InterruptedException e) {e.printStackTrace();}
             }
         };
         myIntro.start();
