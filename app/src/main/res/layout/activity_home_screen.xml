@@ -64,6 +64,7 @@
             android:layout_marginBottom="30dp"/>
 
         <LinearLayout
+            android:id="@+id/buttons"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal">
@@ -73,16 +74,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:textAllCaps="false"
-                android:text="Login" />
+                android:text="Login"
+                android:textAllCaps="false" />
 
             <Button
                 android:id="@+id/create"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:textAllCaps="false"
-                android:text="Create" />
+                android:text="Create"
+                android:textAllCaps="false" />
         </LinearLayout>
 
     </LinearLayout>

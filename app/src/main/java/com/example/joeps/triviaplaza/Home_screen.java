@@ -20,7 +20,7 @@ import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 import com.google.firebase.auth.FirebaseUser;
 
-public class Home_screen extends AppCompatActivity {
+public class Home_screen extends AppCompatActivity implements View.OnClickListener{
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
     String email;
@@ -32,47 +32,26 @@ public class Home_screen extends AppCompatActivity {
         getWindow().getDecorView().setBackgroundColor(Color.parseColor("#D6896A"));
         mAuth = FirebaseAuth.getInstance();
         final Button login = findViewById(R.id.login);
-        login.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v){
-                TextView emailv = findViewById(R.id.email);
-                TextView passwordv = findViewById(R.id.password);
-                email = emailv.getText().toString();
-                password = passwordv.getText().toString();
-                if (email.length() > 0 || password.length() > 0){
-                    logIn();
-                }
-            }
-        });
         final Button create = findViewById(R.id.create);
-        create.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v){
-                TextView emailv = findViewById(R.id.email);
-                TextView passwordv = findViewById(R.id.password);
-                email = emailv.getText().toString();
-                password = passwordv.getText().toString();
-                if (email.length() > 0 || password.length() > 0) {
-                    createUser();
-                }
-            }
-        });
-
-        mAuthListener = new FirebaseAuth.AuthStateListener() {
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                FirebaseUser user = firebaseAuth.getCurrentUser();
-                if (user!= null){
-                    Log.d("Signed in", "onAuthStateChanged:signed_in:" + user.getUid());
-                }else{
-                    Log.d("Signed out", "onAuthStateChanged:signed_out");
-                }
-            }
-        };
-
+        login.setOnClickListener(this);
+        create.setOnClickListener(this);
+        authlistener();
+    }
+    public void onClick(View v) {
+        TextView emailv = findViewById(R.id.email);
+        TextView passwordv = findViewById(R.id.password);
+        email = emailv.getText().toString();
+        password = passwordv.getText().toString();
+        if (email.length() > 0 && password.length() > 0){
+        if(v.getId() == R.id.login) {
+            logIn();
+        }else if(v.getId() == R.id.create) {
+            createUser();
+        }}else{Toast.makeText(Home_screen.this, "Email or password is empty.", Toast.LENGTH_LONG).show();}
     }
     @Override
     public void onStart() {
         super.onStart();
-        // Check if user is signed in (non-null) and update UI accordingly.
         mAuth.addAuthStateListener(mAuthListener);
     }
 
@@ -91,25 +70,20 @@ public class Home_screen extends AppCompatActivity {
                         if (!task.isSuccessful()) {
                             try {
                                 throw task.getException();
-                            }
-                            // if user enters wrong email.
+                            }catch (FirebaseAuthUserCollisionException existEmail) {
+                                Log.d("exist_email", "onComplete: exist_email");
+                                Toast.makeText(Home_screen.this, email+ " already exists!",
+                                        Toast.LENGTH_SHORT).show();}// if user enters wrong email.
                             catch (FirebaseAuthWeakPasswordException weakPassword) {
                                 Log.d("weak_password", "onComplete: weak_password");
                                 Toast.makeText(Home_screen.this, "Weak password! Password needs to be at least 6 characters  long!",
-                                        Toast.LENGTH_LONG).show();
-                            }
-                            // if user enters wrong password.
+                                        Toast.LENGTH_LONG).show();}// if user enters wrong password.
                             catch (FirebaseAuthInvalidCredentialsException malformedEmail) {
                                 Log.d("malformed_email", "onComplete: malformed_email");
                                 Toast.makeText(Home_screen.this,  "Malformed email!",
                                         Toast.LENGTH_SHORT).show();
-                            } catch (FirebaseAuthUserCollisionException existEmail) {
-                                Log.d("exist_email", "onComplete: exist_email");
-                                Toast.makeText(Home_screen.this, email+ " already exists!",
-                                        Toast.LENGTH_SHORT).show();
-                            } catch (Exception e) {
-                                Log.d("Error", "onComplete: " + e.getMessage());
-                            }
+                            }  catch (Exception e) {
+                                Log.d("Error", "onComplete: " + e.getMessage());}
                         }else{
                             logIn();
                         }
@@ -135,5 +109,18 @@ public class Home_screen extends AppCompatActivity {
         Intent intent = new Intent(getApplicationContext(), Main.class);
         startActivity(intent);
         finish();
+    }
+    public void authlistener(){
+        mAuthListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                FirebaseUser user = firebaseAuth.getCurrentUser();
+                if (user!= null){
+                    Log.d("Signed in", "onAuthStateChanged:signed_in:" + user.getUid());
+                }else{
+                    Log.d("Signed out", "onAuthStateChanged:signed_out");
+                }
+            }
+        };
     }
 }
