@@ -16,7 +16,6 @@ public class Main extends AppCompatActivity {
     private FirebaseAuth.AuthStateListener authListenerTest;
     private static final String Tag = "Firebase_test";
     private DatabaseReference mDatabase;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
