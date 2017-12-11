@@ -27,7 +27,8 @@
                 <category android:name="android.intent.category.ALTERNATIVE" />
             </intent-filter>
         </activity>
-        <activity android:name=".Main"></activity>
+        <activity android:name=".Main" />
+        <activity android:name=".Question"></activity>
     </application>
 
 </manifest>
