@@ -1,9 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="com.example.joeps.triviaplaza.Question">
 
-</android.support.constraint.ConstraintLayout>
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="30dp"
+        android:text="True or False"
+        android:textSize="60dp"
+        android:textStyle="italic" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="300dp"
+        android:layout_height="200dp"
+        android:layout_gravity="center_horizontal"
+        app:srcCompat="@drawable/truefalse"
+        android:scaleType="fitXY"
+        android:layout_marginBottom="40dp"/>
+
+    <TextView
+        android:id="@+id/question"
+        android:layout_marginLeft="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="In Topology, the complement of an open set is a closed set."
+        android:textSize="20dp"
+        android:textStyle="bold"
+        android:layout_marginBottom="60dp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:id="@+id/trueButton"
+            android:layout_width="150dp"
+            android:layout_height="75dp"
+            android:scaleType="fitXY"
+            android:layout_weight="1"
+            app:srcCompat="@drawable/truep" />
+
+        <ImageButton
+            android:id="@+id/falseButton"
+            android:layout_width="150dp"
+            android:layout_height="75dp"
+            android:scaleType="fitXY"
+            android:layout_weight="1"
+            app:srcCompat="@drawable/falsep" />
+    </LinearLayout>
+</LinearLayout>

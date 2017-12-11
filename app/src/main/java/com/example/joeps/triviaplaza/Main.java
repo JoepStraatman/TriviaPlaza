@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -83,21 +84,15 @@ public class Main extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
                 //String picked = ("" +(adapterView.getItemAtPosition(position)));
-                Intent intent = new Intent(Main.this, Question.class);//intent.putExtra("catt",picked);
-                startActivity(intent);
-                finish();
+                try {
+                    JSONObject arrayPicked = new JSONObject(ja_data.getString(position));
+
+                    Intent intent = new Intent(Main.this, Question.class);
+                    intent.putExtra("item", arrayPicked.toString());
+                    startActivity(intent);//finish();
+                }catch (JSONException e){throw new RuntimeException(e);}
             }
         });
-    }
-    public void getQuestion(){
-        JSONArray jArray = ja_data;
-        if (jArray != null) {
-            for (int i = 0; i < jArray.length(); i++) {try {
-                JSONObject jsonArray2 = new JSONObject(jArray.getString(i));
-                listdata.add(jsonArray2.getString("question"));
-            } catch (JSONException e) {throw new RuntimeException(e);}
-            }
-        }
     }
     public void doThings(JSONObject response){
         listdata = new ArrayList<String>();  // load data from file
@@ -111,5 +106,15 @@ public class Main extends AppCompatActivity {
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(Main.this, R.layout.main_layout, myArray);
         final ListView list = findViewById(R.id.home);
         list.setAdapter(adapter);
+    }
+    public void getQuestion(){
+        JSONArray jArray = ja_data;
+        if (jArray != null) {
+            for (int i = 0; i < jArray.length(); i++) {try {
+                JSONObject jsonArray2 = new JSONObject(jArray.getString(i));
+                listdata.add(jsonArray2.getString("question").replaceAll("&quot;", "'").replaceAll("&#039;", "'"));
+            } catch (JSONException e) {throw new RuntimeException(e);}
+            }
+        }
     }
 }
