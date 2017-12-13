@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/border">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="5dp"
+        android:background="#C17C60"
+        android:padding="5dp"
+        android:text="Every time you come here there are 5 random questions. You can pick 1 of these questions and try to win karma points by selecting the right answer. For every good question you will earn 1 karma point. You will be able to see the karma points in the right top. Karma points are used to compare youre score with the rest of the world! Now good luck and have fun with it!"
+        android:textSize="25dp" />
+</LinearLayout>

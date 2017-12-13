@@ -6,11 +6,54 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="com.example.joeps.triviaplaza.Main">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="25dp"
+        android:background="@color/titleColor"
+        android:textAlignment="textEnd"
+        android:orientation="horizontal">
 
+        <ImageButton
+            android:id="@+id/top"
+            android:layout_width="25dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="5dp"
+            app:srcCompat="@android:drawable/star_big_on" />
+
+        <TextView
+            android:id="@+id/karma"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical"
+            android:layout_marginRight="5dp"
+            android:layout_weight="1"
+            android:gravity="right"
+            android:text="0"
+            android:textColor="#ffffff" />
+
+        <ImageView
+            android:layout_gravity="center_vertical"
+            android:id="@+id/imageView2"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_marginRight="5dp"
+            app:srcCompat="@drawable/karma" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/explain"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_margin="10dp"
+        android:text="Choose 1 of the 5 questions below and try to win karma!(?)"
+        android:textSize="20sp" />
     <ListView
         android:id="@+id/home"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:layout_editor_absoluteX="8dp"
-        tools:layout_editor_absoluteY="8dp" />
+        tools:layout_editor_absoluteY="8dp" >
+    </ListView>
 </LinearLayout>

@@ -34,10 +34,8 @@ public class Home_screen extends AppCompatActivity implements View.OnClickListen
         mAuth = FirebaseAuth.getInstance();
         final Button login = findViewById(R.id.login);
         final Button create = findViewById(R.id.create);
-        final ImageButton top = findViewById(R.id.top);
         login.setOnClickListener(this);
         create.setOnClickListener(this);
-        top.setOnClickListener(this);
         authlistener();
     }
     public void onClick(View v) {
@@ -45,16 +43,14 @@ public class Home_screen extends AppCompatActivity implements View.OnClickListen
         TextView passwordv = findViewById(R.id.password);
         email = emailv.getText().toString();
         password = passwordv.getText().toString();
-        if(v.getId() == R.id.top) {startActivity(new Intent(Home_screen.this,Highscores.class));
-        }else {
-            if (email.length() > 0 && password.length() > 0) {
-                if (v.getId() == R.id.login) {
-                    logIn();
-                } else if (v.getId() == R.id.create) {
-                    createUser();}
-            } else {
-                Toast.makeText(Home_screen.this, "Email or password is empty.", Toast.LENGTH_LONG).show();}
-        }}
+           if (email.length() > 0 && password.length() > 0) {
+               if (v.getId() == R.id.login) {
+                   logIn();
+               } else if (v.getId() == R.id.create) {
+                   createUser();}
+           } else {
+               Toast.makeText(Home_screen.this, "Email or password is empty.", Toast.LENGTH_LONG).show();}
+       }
     @Override
     public void onStart() {
         super.onStart();

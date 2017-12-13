@@ -10,7 +10,9 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -31,7 +33,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Main extends AppCompatActivity {
+public class Main extends AppCompatActivity implements View.OnClickListener{
     private FirebaseAuth authTest;
     private FirebaseAuth.AuthStateListener authListenerTest;
     private static final String Tag = "Firebase_test";
@@ -47,7 +49,14 @@ public class Main extends AppCompatActivity {
         setListener(getApplicationContext());
         mDatabase = FirebaseDatabase.getInstance().getReference();
         openCategory();
+        ImageButton top = findViewById(R.id.top);
+        TextView explain = findViewById(R.id.explain);
+        top.setOnClickListener(this);
+        explain.setOnClickListener(this);
     }
+    public void onClick(View v) {
+        if(v.getId() == R.id.top) {startActivity(new Intent(Main.this,Highscores.class));
+        }else if(v.getId() == R.id.explain){startActivity(new Intent(Main.this,Explain.class));}}
     private void setListener(final Context context){
         authListenerTest = new FirebaseAuth.AuthStateListener() {
             @Override

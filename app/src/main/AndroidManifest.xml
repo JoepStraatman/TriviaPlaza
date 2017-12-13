@@ -32,6 +32,9 @@
         <activity
             android:name=".Popup"
             android:theme="@style/AppTheme.CustomTheme"></activity>
+        <activity
+            android:name=".Explain"
+            android:theme="@style/AppTheme.CustomTheme"></activity>
         <activity android:name=".Highscores"></activity>
     </application>
 
