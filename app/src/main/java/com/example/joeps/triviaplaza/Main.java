@@ -35,7 +35,7 @@ public class Main extends AppCompatActivity {
     private FirebaseAuth.AuthStateListener authListenerTest;
     private static final String Tag = "Firebase_test";
     private DatabaseReference mDatabase;
-    private String url = "https://opentdb.com/api.php?amount=10&type=boolean";
+    private String url = "https://opentdb.com/api.php?amount=5&type=boolean";
     public JSONArray ja_data = null;
     ArrayList<String> listdata;
     @Override
@@ -69,7 +69,7 @@ public class Main extends AppCompatActivity {
         JsonObjectRequest stringRequest = new JsonObjectRequest(Request.Method.GET, url, null, new com.android.volley.Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                doThings(response);
+                saveToAdapter(response);
             }}, new com.android.volley.Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
@@ -83,18 +83,16 @@ public class Main extends AppCompatActivity {
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-                //String picked = ("" +(adapterView.getItemAtPosition(position)));
                 try {
                     JSONObject arrayPicked = new JSONObject(ja_data.getString(position));
-
                     Intent intent = new Intent(Main.this, Question.class);
                     intent.putExtra("item", arrayPicked.toString());
-                    startActivity(intent);//finish();
+                    startActivity(intent);finish();
                 }catch (JSONException e){throw new RuntimeException(e);}
             }
         });
     }
-    public void doThings(JSONObject response){
+    public void saveToAdapter(JSONObject response){
         listdata = new ArrayList<String>();  // load data from file
         try {
             JSONObject jsonObj = new JSONObject(response.toString());

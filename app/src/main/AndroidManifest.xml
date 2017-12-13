@@ -28,10 +28,11 @@
             </intent-filter>
         </activity>
         <activity android:name=".Main" />
-        <activity android:name=".Question"></activity>
-        <activity android:name=".Popup"
-            android:theme="@style/AppTheme.CustomTheme">
-        </activity>
+        <activity android:name=".Question" />
+        <activity
+            android:name=".Popup"
+            android:theme="@style/AppTheme.CustomTheme"></activity>
+        <activity android:name=".Highscores"></activity>
     </application>
 
 </manifest>

@@ -1,7 +1,10 @@
 package com.example.joeps.triviaplaza;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.content.IntentCompat;
 import android.util.DisplayMetrics;
 import android.widget.TextView;
 
@@ -10,9 +13,8 @@ import android.widget.TextView;
  */
 
 public class Popup extends Activity{
-
     @Override
-    protected void onCreate(Bundle savedInstanceState){
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.popup_window);
@@ -23,12 +25,18 @@ public class Popup extends Activity{
         int width = dm.widthPixels;
         int height = dm.heightPixels;
 
-        getWindow().setLayout((int)(width*.8),(int)(height*.6));
+        getWindow().setLayout((int) (width * .8), (int) (height * .6));
         TextView text = findViewById(R.id.goodfalse);
-        if (Question.correctA == true){
+        if (Question.correctA == true) {
             text.setText("Youre answer was correct!");
-        }else{
+        } else {
             text.setText("Youre answer was incorrect!");
         }
     }
-}
+        @Override
+        protected void onDestroy () {
+            super.onDestroy();
+            Intent intent = new Intent(this, Main.class);
+            startActivity(intent);
+        }
+    }
