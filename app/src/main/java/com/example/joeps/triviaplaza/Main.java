@@ -1,6 +1,7 @@
 package com.example.joeps.triviaplaza;
 
 import android.app.DownloadManager;
+import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -43,11 +44,11 @@ public class Main extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         authTest = FirebaseAuth.getInstance();
-        setListener();
+        setListener(getApplicationContext());
         mDatabase = FirebaseDatabase.getInstance().getReference();
         openCategory();
     }
-    private void setListener(){
+    private void setListener(final Context context){
         authListenerTest = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
@@ -56,13 +57,10 @@ public class Main extends AppCompatActivity {
                     Log.d(Tag, "onAuthStateChanged:signed_in"+user.getUid());
                 }else{
                     Log.d(Tag, "onAuthStateChanged:signed_out");
-                    goToHome();
+                    startActivity(new Intent(context, Home_screen.class));finish();
                 }
             }
         };
-    }
-    private void goToHome() {
-        startActivity(new Intent(getApplicationContext(), Home_screen.class));finish();
     }
     public void openCategory() {
         RequestQueue queue = Volley.newRequestQueue(this);
@@ -93,7 +91,7 @@ public class Main extends AppCompatActivity {
         });
     }
     public void saveToAdapter(JSONObject response){
-        listdata = new ArrayList<String>();  // load data from file
+        listdata = new ArrayList<>();  // load data from file
         try {
             JSONObject jsonObj = new JSONObject(response.toString());
             ja_data = jsonObj.getJSONArray("results"); // Get objects of request
@@ -101,7 +99,7 @@ public class Main extends AppCompatActivity {
             throw new RuntimeException(e);
         }getQuestion();
         ArrayList<String> myArray = listdata;
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(Main.this, R.layout.main_layout, myArray);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(Main.this, R.layout.main_layout, myArray);
         final ListView list = findViewById(R.id.home);
         list.setAdapter(adapter);
     }

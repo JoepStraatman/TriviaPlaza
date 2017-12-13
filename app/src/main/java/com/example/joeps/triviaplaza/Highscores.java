@@ -1,5 +1,6 @@
 package com.example.joeps.triviaplaza;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -27,10 +28,10 @@ public class Highscores extends AppCompatActivity implements View.OnClickListene
         ImageButton top = findViewById(R.id.top);
         top.setOnClickListener(this);
         authTest = FirebaseAuth.getInstance();
-        setListener();
+        setListener(getApplicationContext());
         mDatabase = FirebaseDatabase.getInstance().getReference();
     }
-    private void setListener(){
+    private void setListener(final Context context){
         authListenerTest = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
@@ -39,13 +40,10 @@ public class Highscores extends AppCompatActivity implements View.OnClickListene
                     Log.d(Tag, "onAuthStateChanged:signed_in"+user.getUid());
                 }else{
                     Log.d(Tag, "onAuthStateChanged:signed_out");
-                    goToHome();
+                    startActivity(new Intent(context, Home_screen.class));finish();
                 }
             }
         };
-    }
-    private void goToHome() {
-        startActivity(new Intent(getApplicationContext(), Home_screen.class));finish();
     }
     public void onClick(View v) {
         if (v.getId() == R.id.top) {
