@@ -20,7 +20,11 @@ import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 import com.google.firebase.auth.FirebaseUser;
-
+/**
+ * Created by joeps on 13-12-2017.
+ * This activity is the Loginscreen for the app.
+ * Here you can either login to triviaplaza or create an account for triviaplaza.
+ */
 public class Home_screen extends AppCompatActivity implements View.OnClickListener{
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
@@ -43,10 +47,10 @@ public class Home_screen extends AppCompatActivity implements View.OnClickListen
         TextView passwordv = findViewById(R.id.password);
         email = emailv.getText().toString();
         password = passwordv.getText().toString();
-           if (email.length() > 0 && password.length() > 0) {
-               if (v.getId() == R.id.login) {
+           if (email.length() > 0 && password.length() > 0) { //If email or password input isnt empty.
+               if (v.getId() == R.id.login) { //When clicked login, do login.
                    logIn();
-               } else if (v.getId() == R.id.create) {
+               } else if (v.getId() == R.id.create) { //When clicked create, create account and login.
                    createUser();}
            } else {
                Toast.makeText(Home_screen.this, "Email or password is empty.", Toast.LENGTH_LONG).show();}
@@ -64,7 +68,7 @@ public class Home_screen extends AppCompatActivity implements View.OnClickListen
             mAuth.removeAuthStateListener(mAuthListener);
         }
     }
-    public void createUser(){
+    public void createUser(){ //Create a user in firebase.
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
@@ -87,12 +91,12 @@ public class Home_screen extends AppCompatActivity implements View.OnClickListen
                             }  catch (Exception e) {
                                 Log.d("Error", "onComplete: " + e.getMessage());}
                         }else{
-                            logIn();
+                            logIn(); //Log the user in after creating the account.
                         }
                     }
                 });
     }
-    public void logIn(){
+    public void logIn(){ //Login the user into firebase
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
@@ -107,12 +111,12 @@ public class Home_screen extends AppCompatActivity implements View.OnClickListen
                     }
         });
     }
-    public void next(){
+    public void next(){ //Go to the Main class. Called after login is complete.
         Intent intent = new Intent(getApplicationContext(), Main.class);
         startActivity(intent);
         finish();
     }
-    public void authlistener(){
+    public void authlistener(){ //Check if the user is logged in.
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {

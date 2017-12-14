@@ -15,6 +15,10 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+/**
+ * Created by joeps on 13-12-2017.
+ * This activity shows karma scores from other users.
+ */
 
 public class Highscores extends AppCompatActivity implements View.OnClickListener{
     private FirebaseAuth authTest;
@@ -31,7 +35,7 @@ public class Highscores extends AppCompatActivity implements View.OnClickListene
         setListener(getApplicationContext());
         mDatabase = FirebaseDatabase.getInstance().getReference();
     }
-    private void setListener(final Context context){
+    private void setListener(final Context context){ // Check if the user is logged in.
         authListenerTest = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
@@ -45,7 +49,7 @@ public class Highscores extends AppCompatActivity implements View.OnClickListene
             }
         };
     }
-    public void onClick(View v) {
+    public void onClick(View v) { //On the click of the star icon finish this activity and go back to the previous one.
         if (v.getId() == R.id.top) {
             finish();
         }

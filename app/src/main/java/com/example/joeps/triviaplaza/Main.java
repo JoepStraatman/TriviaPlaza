@@ -32,7 +32,11 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
-
+/**
+ * Created by joeps on 13-12-2017.
+ * This activity is the activity where you can choose 1 of 5 questions to earn karma points.
+ * The questions are retrieved from the opentdb api. Every time this activity is loaded 5 random will be retrieved again.
+ */
 public class Main extends AppCompatActivity implements View.OnClickListener{
     private FirebaseAuth authTest;
     private FirebaseAuth.AuthStateListener authListenerTest;
@@ -55,9 +59,10 @@ public class Main extends AppCompatActivity implements View.OnClickListener{
         explain.setOnClickListener(this);
     }
     public void onClick(View v) {
-        if(v.getId() == R.id.top) {startActivity(new Intent(Main.this,Highscores.class));
-        }else if(v.getId() == R.id.explain){startActivity(new Intent(Main.this,Explain.class));}}
-    private void setListener(final Context context){
+        if(v.getId() == R.id.top) {startActivity(new Intent(Main.this,Highscores.class));// Go to highscore place.
+        }else if(v.getId() == R.id.explain){startActivity(new Intent(Main.this,Explain.class));}}//Open the explain popup window.
+
+    private void setListener(final Context context){//Check if the user is logged in.
         authListenerTest = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
@@ -71,7 +76,7 @@ public class Main extends AppCompatActivity implements View.OnClickListener{
             }
         };
     }
-    public void openCategory() {
+    public void openCategory() {//Create a new volley request to the api.
         RequestQueue queue = Volley.newRequestQueue(this);
         JsonObjectRequest stringRequest = new JsonObjectRequest(Request.Method.GET, url, null, new com.android.volley.Response.Listener<JSONObject>() {
             @Override
@@ -85,7 +90,7 @@ public class Main extends AppCompatActivity implements View.OnClickListener{
         queue.add(stringRequest);// Add the request to the RequestQueue.
         listClick();
     }
-    public void listClick() {
+    public void listClick() { //On listview item click go to a new activity and open the question.
         final ListView list = findViewById(R.id.home);
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -99,7 +104,7 @@ public class Main extends AppCompatActivity implements View.OnClickListener{
             }
         });
     }
-    public void saveToAdapter(JSONObject response){
+    public void saveToAdapter(JSONObject response){ //Set the questions to the listview adapter
         listdata = new ArrayList<>();  // load data from file
         try {
             JSONObject jsonObj = new JSONObject(response.toString());
@@ -112,7 +117,7 @@ public class Main extends AppCompatActivity implements View.OnClickListener{
         final ListView list = findViewById(R.id.home);
         list.setAdapter(adapter);
     }
-    public void getQuestion(){
+    public void getQuestion(){//Get the questions from the response.
         JSONArray jArray = ja_data;
         if (jArray != null) {
             for (int i = 0; i < jArray.length(); i++) {try {

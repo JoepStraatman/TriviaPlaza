@@ -22,7 +22,12 @@ import com.google.firebase.database.ValueEventListener;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-
+/**
+ * Created by joeps on 13-12-2017.
+ * This activity shows the question picked in the Main activity.
+ * You can choose if the answer is true or false.
+ * If you answer correctly you will be awarded with 1 karmapoint.
+ */
 public class Question extends AppCompatActivity implements View.OnClickListener{
     JSONObject jobject;
     Intent intent;
@@ -47,7 +52,7 @@ public class Question extends AppCompatActivity implements View.OnClickListener{
         login.setOnClickListener(this);
         create.setOnClickListener(this);
     }
-    private void setListener(){
+    private void setListener(){ //Check if the user is logged in.
         authListenerTest = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
@@ -63,19 +68,19 @@ public class Question extends AppCompatActivity implements View.OnClickListener{
         };
     }
     public void onClick(View v) {
-        if(v.getId() == R.id.trueButton) {
+        if(v.getId() == R.id.trueButton) { //On click of the true button set input to true
             input = "True";
-        }else if(v.getId() == R.id.falseButton) {
+        }else if(v.getId() == R.id.falseButton) { //On click of the false button set input to false.
             input = "False";}
-        if (answer.equals(input)){
+        if (answer.equals(input)){ //If the answer to the question is correct.
             correctA = true;
             dataToFirebase();
-            startActivity(new Intent(Question.this,Popup.class));//close();
-        }else{
+            startActivity(new Intent(Question.this,Popup.class));//Open popup.
+        }else{ //If the answer to the question is incorrect.
             correctA = false;
-            startActivity(new Intent(Question.this,Popup.class));}
+            startActivity(new Intent(Question.this,Popup.class));}//Open popup.
     }
-    public void loadIntent(){
+    public void loadIntent(){//Get the question from the intent.
         intent = getIntent();
         jsonString = intent.getStringExtra("item");
         try {
@@ -85,13 +90,13 @@ public class Question extends AppCompatActivity implements View.OnClickListener{
             answer = jobject.getString("correct_answer");
         }catch (JSONException e) {e.printStackTrace();}
     }
-    public void dataToFirebase(){
+    public void dataToFirebase(){//Set the karmapoints of the user when answered correctly.
         FirebaseUser user = authTest.getCurrentUser();
         mDatabase.child("users").setValue(user.getUid());
         mDatabase.child("users/"+user.getUid()).child("Karma").setValue((3));
 
     }
-    public void getFromFirebase(){
+    public void getFromFirebase(){//Get the current karmapoints of the user.
         ValueEventListener postListener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {

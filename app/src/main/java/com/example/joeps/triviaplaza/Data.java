@@ -5,11 +5,11 @@ package com.example.joeps.triviaplaza;
  */
 
 public class Data {
-    public String Karma;
+    public int Karma;
     public Data(){
     }
-
-    public Data(String Karma){
+    //Get karma from the database.
+    public Data(int Karma){
         this.Karma = Karma;
     }
 }
