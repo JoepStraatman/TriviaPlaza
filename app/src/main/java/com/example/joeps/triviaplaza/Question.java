@@ -97,9 +97,8 @@ public class Question extends AppCompatActivity implements View.OnClickListener{
     }
     public void dataToFirebase(){//Set the karmapoints of the user when answered correctly.
         FirebaseUser user = authTest.getCurrentUser();
-        mDatabase.child("users").setValue(user.getUid());
         System.out.println("karmapoint"+tot);
-        mDatabase.child("users/"+user.getUid()).child("Karma").setValue((tot+1));
+        mDatabase.child("users").child(user.getUid()).child("Karma").setValue((tot+1));
 
     }
     public void getFromFirebase(){//Get the current karmapoints of the user.
@@ -107,7 +106,7 @@ public class Question extends AppCompatActivity implements View.OnClickListener{
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 FirebaseUser user = authTest.getCurrentUser();
-                Data dataa = dataSnapshot.child("users/"+user.getUid()).getValue(Data.class);
+                Data dataa = dataSnapshot.child("users").child(user.getUid()).getValue(Data.class);
                 if (dataa != null){
                 TextView karma = findViewById(R.id.karma);
                 karma.setText(dataa.Karma+"");

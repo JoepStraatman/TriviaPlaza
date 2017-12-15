@@ -45,7 +45,6 @@ public class Highscores extends AppCompatActivity implements View.OnClickListene
         sub.setOnClickListener(this);
         Button gethigh = findViewById(R.id.high);
         gethigh.setOnClickListener(this);
-        getFromFirebase();
     }
     private void setListener(final Context context){ // Check if the user is logged in.
         authListenerTest = new FirebaseAuth.AuthStateListener() {
@@ -73,36 +72,19 @@ public class Highscores extends AppCompatActivity implements View.OnClickListene
     }
     public void send(int tot){
         EditText score = findViewById(R.id.name);
-        mDatabase.child("highscores").setValue(score.getText().toString());
+        //mDatabase.child("highscores").setValue(score.getText().toString());
         mDatabase.child("highscores").child(score.getText().toString()).child("Karma").setValue((tot));
-
+        Toast.makeText(getApplicationContext(),"Highscore for user: " +score.getText().toString()+ " ("+tot+") added to the board!",Toast.LENGTH_SHORT);
+        score.setText("");
     }
     public void dataToFirebase(){//Get the current karmapoints of the user.
         mDatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 FirebaseUser user = authTest.getCurrentUser();
-                Data dataa = dataSnapshot.child("users/"+user.getUid()).getValue(Data.class);
+                Data dataa = dataSnapshot.child("users").child(user.getUid()).getValue(Data.class);
                 if (dataa != null){
                     send(dataa.Karma);}}
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Log.w("oops","Oops something went wrong: ",databaseError.toException());
-                startActivity(new Intent(getApplicationContext(), Home_screen.class));finish();
-            }
-        });
-
-    }
-    public void getFromFirebase(){//Get the current karmapoints of the user.
-        mDatabase.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                FirebaseUser user = authTest.getCurrentUser();
-                Data dataa = dataSnapshot.child("users/"+user.getUid()).getValue(Data.class);
-                if (dataa != null){
-                    TextView karma = findViewById(R.id.karma);
-                    karma.setText(dataa.Karma+"");
-                }}
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 Log.w("oops","Oops something went wrong: ",databaseError.toException());
@@ -115,10 +97,11 @@ public class Highscores extends AppCompatActivity implements View.OnClickListene
         mDatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                High highscore = dataSnapshot.child("highscores/"+userr.getText().toString()).getValue(High.class);
+                High highscore = dataSnapshot.child("highscores").child(userr.getText().toString()).getValue(High.class);
                 if (highscore != null){
                     TextView show = findViewById(R.id.show);
-                    show.setText(highscore.Karma+"");
+                    show.setText("Karmapoints: "+highscore.Karma+"");
+                    userr.setText("");
                 }}
             @Override
             public void onCancelled(DatabaseError databaseError) {

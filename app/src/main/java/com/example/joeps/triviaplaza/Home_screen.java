@@ -20,6 +20,9 @@ import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 /**
  * Created by joeps on 13-12-2017.
  * This activity is the Loginscreen for the app.
@@ -30,9 +33,13 @@ public class Home_screen extends AppCompatActivity implements View.OnClickListen
     private FirebaseAuth.AuthStateListener mAuthListener;
     String email;
     String password;
+    private DatabaseReference mDatabase;
+    private FirebaseAuth authTest;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        authTest = FirebaseAuth.getInstance();
+        mDatabase = FirebaseDatabase.getInstance().getReference();
         setContentView(R.layout.activity_home_screen);
         getWindow().getDecorView().setBackgroundColor(Color.parseColor("#D6896A"));
         mAuth = FirebaseAuth.getInstance();
@@ -92,6 +99,7 @@ public class Home_screen extends AppCompatActivity implements View.OnClickListen
                                 Log.d("Error", "onComplete: " + e.getMessage());}
                         }else{
                             logIn(); //Log the user in after creating the account.
+                            dataToFirebase();
                         }
                     }
                 });
@@ -129,5 +137,10 @@ public class Home_screen extends AppCompatActivity implements View.OnClickListen
                 }
             }
         };
+    }
+    public void dataToFirebase(){//Set the karmapoints of the user when answered correctly.
+        FirebaseUser user = authTest.getCurrentUser();
+        mDatabase.child("users").child(user.getUid()).child("Karma").setValue(0);
+
     }
 }
