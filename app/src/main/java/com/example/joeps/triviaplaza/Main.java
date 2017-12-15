@@ -23,8 +23,11 @@ import com.android.volley.toolbox.Volley;
 import com.google.android.gms.common.api.Response;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -39,9 +42,10 @@ import java.util.List;
  */
 public class Main extends AppCompatActivity implements View.OnClickListener{
     private FirebaseAuth authTest;
-    private FirebaseAuth.AuthStateListener authListenerTest;
+    private FirebaseAuth.AuthStateListener authlistener;
     private static final String Tag = "Firebase_test";
     private DatabaseReference mDatabase;
+    private FirebaseAuth.AuthStateListener mAuthListener;
     private String url = "https://opentdb.com/api.php?amount=5&type=boolean";
     public JSONArray ja_data = null;
     ArrayList<String> listdata;
@@ -50,28 +54,32 @@ public class Main extends AppCompatActivity implements View.OnClickListener{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         authTest = FirebaseAuth.getInstance();
-        setListener(getApplicationContext());
         mDatabase = FirebaseDatabase.getInstance().getReference();
         openCategory();
         ImageButton top = findViewById(R.id.top);
         TextView explain = findViewById(R.id.explain);
+        TextView logout = findViewById(R.id.logout);
+        logout.setOnClickListener(this);
         top.setOnClickListener(this);
         explain.setOnClickListener(this);
+        authlistener();
+        getFromFirebase();
     }
     public void onClick(View v) {
         if(v.getId() == R.id.top) {startActivity(new Intent(Main.this,Highscores.class));// Go to highscore place.
-        }else if(v.getId() == R.id.explain){startActivity(new Intent(Main.this,Explain.class));}}//Open the explain popup window.
+        }else if(v.getId() == R.id.explain){startActivity(new Intent(Main.this,Explain.class));}
+        else if (v.getId() == R.id.logout){authTest.signOut();Log.d(Tag, "onAuthStateChanged:signed_out2");}}//Open the explain popup window.
 
-    private void setListener(final Context context){//Check if the user is logged in.
-        authListenerTest = new FirebaseAuth.AuthStateListener() {
+    public void authlistener(){ //Check if the user is logged in.
+        mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if (user != null){
-                    Log.d(Tag, "onAuthStateChanged:signed_in"+user.getUid());
+                    Log.d(Tag, "onAuthStateChanged:signed_inmain"+user.getUid());
                 }else{
                     Log.d(Tag, "onAuthStateChanged:signed_out");
-                    startActivity(new Intent(context, Home_screen.class));finish();
+                    startActivity(new Intent(getApplicationContext(), Home_screen.class));finish();
                 }
             }
         };
@@ -126,5 +134,23 @@ public class Main extends AppCompatActivity implements View.OnClickListener{
             } catch (JSONException e) {throw new RuntimeException(e);}
             }
         }
+    }
+    public void getFromFirebase(){//Get the current karmapoints of the user.
+        mDatabase.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                FirebaseUser user = authTest.getCurrentUser();
+                Data dataa = dataSnapshot.child("users/"+user.getUid()).getValue(Data.class);
+                if (dataa != null){
+                    TextView karma = findViewById(R.id.karma);
+                    karma.setText(dataa.Karma+"");
+                   }}
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.w("oops","Oops something went wrong: ",databaseError.toException());
+                startActivity(new Intent(getApplicationContext(), Home_screen.class));finish();
+            }
+        });
+
     }
 }

@@ -117,6 +117,7 @@ public class Home_screen extends AppCompatActivity implements View.OnClickListen
         finish();
     }
     public void authlistener(){ //Check if the user is logged in.
+        //FirebaseAuth.AuthStateListener mAuthListener;
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {

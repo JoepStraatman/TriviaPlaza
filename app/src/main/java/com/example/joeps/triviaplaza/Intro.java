@@ -30,7 +30,7 @@ public class Intro extends AppCompatActivity {
         myIntro.start();
     }
     public void next() { //Go to the login screen.
-        Intent intent = new Intent(getApplicationContext(), Home_screen.class);
+        Intent intent = new Intent(getApplicationContext(), Main.class);
         startActivity(intent);
         finish();
     }

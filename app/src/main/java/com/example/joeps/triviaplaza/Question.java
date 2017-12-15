@@ -34,6 +34,7 @@ public class Question extends AppCompatActivity implements View.OnClickListener{
     String jsonString;
     String answer;
     String input;
+    static int tot;
     private FirebaseAuth authTest;
     private FirebaseAuth.AuthStateListener authListenerTest;
     private static final String Tag = "Firebase_test";
@@ -51,6 +52,9 @@ public class Question extends AppCompatActivity implements View.OnClickListener{
         setListener();
         login.setOnClickListener(this);
         create.setOnClickListener(this);
+        TextView logout = findViewById(R.id.logout);
+        logout.setOnClickListener(this);
+        getFromFirebase();
     }
     private void setListener(){ //Check if the user is logged in.
         authListenerTest = new FirebaseAuth.AuthStateListener() {
@@ -58,8 +62,8 @@ public class Question extends AppCompatActivity implements View.OnClickListener{
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if (user != null){
-                    Log.d(Tag, "onAuthStateChanged:signed_in"+user.getUid());
-                    getFromFirebase();
+                    Log.d(Tag, "onAuthStateChanged:signed_in2"+user.getUid());
+
                 }else{
                     Log.d(Tag, "onAuthStateChanged:signed_out");
                     startActivity(new Intent(getApplicationContext(), Home_screen.class));finish();
@@ -72,6 +76,7 @@ public class Question extends AppCompatActivity implements View.OnClickListener{
             input = "True";
         }else if(v.getId() == R.id.falseButton) { //On click of the false button set input to false.
             input = "False";}
+        else if (v.getId() == R.id.logout){authTest.signOut();Log.d(Tag, "onAuthStateChanged:signed_out2");}
         if (answer.equals(input)){ //If the answer to the question is correct.
             correctA = true;
             dataToFirebase();
@@ -93,22 +98,26 @@ public class Question extends AppCompatActivity implements View.OnClickListener{
     public void dataToFirebase(){//Set the karmapoints of the user when answered correctly.
         FirebaseUser user = authTest.getCurrentUser();
         mDatabase.child("users").setValue(user.getUid());
-        mDatabase.child("users/"+user.getUid()).child("Karma").setValue((3));
+        System.out.println("karmapoint"+tot);
+        mDatabase.child("users/"+user.getUid()).child("Karma").setValue((tot+1));
 
     }
     public void getFromFirebase(){//Get the current karmapoints of the user.
-        ValueEventListener postListener = new ValueEventListener() {
+        mDatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 FirebaseUser user = authTest.getCurrentUser();
                 Data dataa = dataSnapshot.child("users/"+user.getUid()).getValue(Data.class);
+                if (dataa != null){
                 TextView karma = findViewById(R.id.karma);
-                karma.setText(dataa.Karma);}
+                karma.setText(dataa.Karma+"");
+                tot = dataa.Karma;}}
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 Log.w("oops","Oops something went wrong: ",databaseError.toException());
+                startActivity(new Intent(getApplicationContext(), Home_screen.class));finish();
             }
-        };
-        mDatabase.addValueEventListener(postListener);
+        });
+
     }
 }

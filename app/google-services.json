@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "653777058880-1en01aevcu2qn4nge4q49i46rlvd5239.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.joeps.triviaplaza",
+            "certificate_hash": "b435c53f357c5d78a79dc8da7e33db923280674f"
+          }
+        },
+        {
           "client_id": "653777058880-6tmn4tlohgl3qh9s40hnm4jq147a39mc.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
