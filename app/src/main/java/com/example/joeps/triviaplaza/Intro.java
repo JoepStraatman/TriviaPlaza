@@ -22,7 +22,7 @@ public class Intro extends AppCompatActivity {
         Thread myIntro = new Thread() {
             @Override
             public void run() {try {
-                    sleep(200); //The time before the activity closes.
+                    sleep(2000); //The time before the activity closes.
                     next();
                 } catch (InterruptedException e) {e.printStackTrace();}
             }
